@@ -1,4 +1,5 @@
 const Koa = require("koa");
+const jwt = require("koa-jwt");
 const bodyParser = require("koa-bodyparser");
 const controller = require("./middlewares/controller");
 const { restify, unexpectedErr } = require("./middlewares/rest");
@@ -16,9 +17,16 @@ const { connect, initSchemas } = require("./mongo/db");
 
 const app = new Koa();
 
+// 中间件顺序不能错  body解析 => rest错误提示 => jwt => rest请求处理 => 加载路由
 app.use(bodyParser());
-app.use(restify());
 app.use(unexpectedErr());
+app.use(
+  jwt({ secret: process.env.SECRET }).unless({
+    path: [/^\/public/, /^\/api\/auth\/login/, /^\/api\/auth\/join/]
+  })
+);
+app.use(restify());
+
 app.use(controller());
 
 (async () => {
