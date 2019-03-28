@@ -15,7 +15,7 @@ module.exports = {
         ctx.response.status = e.status || 400;
         ctx.response.body = {
           code: e.code || e.status || 0,
-          msg: e.msg || e.message,
+          msg: e.msg.message || e.msg || e.message,
           time: null
         };
       });

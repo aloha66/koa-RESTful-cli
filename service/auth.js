@@ -1,10 +1,16 @@
 const getToken = require("../utils/jwt");
+const mongoose = require("mongoose");
 
-const login = async (ctx, next) => {
-  const data = {
-    username: "111",
-    token: getToken(ctx)
-  };
-  return data;
+const join = async (ctx, next) => {
+  const { identifier, password } = ctx.request.body;
+  const User = mongoose.model("User");
+  const user = new User({ identifier, password });
+  try {
+    await user.save();
+  } catch (error) {
+    ctx.appErr(error);
+  }
+  return;
 };
-module.exports = { login };
+
+module.exports = { join };
