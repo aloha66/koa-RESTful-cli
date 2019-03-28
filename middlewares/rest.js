@@ -13,9 +13,13 @@ module.exports = {
       };
       await next().catch(e => {
         ctx.response.status = e.status || 400;
+        let msg = e.message;
+        if (e.msg) {
+          msg = e.msg.message || e.msg;
+        }
         ctx.response.body = {
           code: e.code || e.status || 0,
-          msg: e.msg.message || e.msg || e.message,
+          msg,
           time: null
         };
       });
@@ -30,7 +34,7 @@ module.exports = {
           const exp = ctx.state.user.exp * 1000;
           if (exp - Date.now() < 30000) {
             // 与过期时间相比 差30s刷新token
-            token = getToken(ctx);
+            token = getToken();
           }
         }
 

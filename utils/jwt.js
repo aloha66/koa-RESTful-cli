@@ -1,6 +1,6 @@
 const jsonwebtoken = require("jsonwebtoken");
 
-const getToken = (ctx, data) => {
+const getToken = (data = {}) => {
   return jsonwebtoken.sign(
     {
       data,
