@@ -28,7 +28,7 @@ const login = async (ctx, next) => {
     last_signin_at: now,
     username,
     permission: user.permission,
-    // role: user.role,
+    role: user.role,
     token: getToken()
   };
   return data;
