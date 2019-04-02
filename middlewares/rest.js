@@ -39,9 +39,10 @@ module.exports = {
         }
 
         ctx.response.type = "application/json";
-        ctx.rest = (data, msg = "") => {
+        ctx.rest = (data, msg = "", pagation) => {
           ctx.response.body = {
             data,
+            pagation,
             msg,
             code: 1,
             time: null,

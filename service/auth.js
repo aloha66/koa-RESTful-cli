@@ -29,7 +29,7 @@ const login = async (ctx, next) => {
     username,
     permission: user.permission,
     role: user.role,
-    token: getToken()
+    token: getToken({ user_id: user.user_id })
   };
   return data;
 };
