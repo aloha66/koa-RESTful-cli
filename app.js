@@ -1,6 +1,7 @@
 const Koa = require("koa");
 const jwt = require("koa-jwt");
-const bodyParser = require("koa-bodyparser");
+const cors = require('@koa/cors');
+const koaBody = require('koa-body');
 const controller = require("./middlewares/controller");
 const { restify, unexpectedErr } = require("./middlewares/rest");
 console.time("初始化时间");
@@ -16,13 +17,15 @@ if (process.argv[2]) {
 const { connect, initSchemas } = require("./mongo/db");
 
 const app = new Koa();
-
+app.use(cors());
 // 中间件顺序不能错  body解析 => rest错误提示 => jwt => rest请求处理 => 加载路由
-app.use(bodyParser());
+app.use(koaBody({ multipart: true,formidable: {
+  uploadDir: __dirname + '/uploads'
+} }));
 app.use(unexpectedErr());
 app.use(
   jwt({ secret: process.env.SECRET }).unless({
-    path: [/^\/public/, /^\/api\/auth\/login/, /^\/api\/auth\/join/]
+    path: [/^\/public/, /^\/api\/auth\/login/, /^\/api\/auth\/join/,/^\/api\/upload/]
   })
 );
 app.use(restify());
