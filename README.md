@@ -25,7 +25,7 @@ $ npm run test
 - ~~jwt 身份验证~~
 - ~~刷新 token~~
 - ~~登录注册模块~~
-- 上传模块
+- ~~上传模块~~
 - 日志模块
 - 更新路由模块 joi-router
 
@@ -33,7 +33,7 @@ $ npm run test
 
 - token 原理
 - 鉴权机制
-- moog
+- mongoose
 
 ## 目录结构
 
